@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="info-section">
+    <div class="info-box">
+        <h2>The Quiet Zone</h2>
+        <p>
+            Prefer a calm environment? Request seating in our
+            Quiet Zone for a peaceful cafe experience.
+        </p>
+    </div>
+    <div class="info-box">
+        <h2>Group Bookings</h2>
+        <p>
+            Planning a gathering? Contact our Events Coordinator
+            for group reservations.
+        </p>
+        <p>
+            <strong>Email:</strong>
+            events@eldobrewhaven.com
+        </p>
+        <p>
+            <strong>Phone:</strong>
+            +254 700 000 001
+        </p>
+    </div>
+    <div class="info-box">
+        <h2>Good to Know</h2>
+        <p>
+            <strong>Safety Notice:</strong>
+            Please follow cafe guidelines for a safe experience.
+        </p>
+        <p>
+            <strong>Accessibility:</strong>
+            Our cafe is wheelchair accessible and family-friendly.
+        </p>
+    </div>
+</section>
+<section class="booking-wrapper">
+  <div class="container">
+    <div class="booking-form">
+      <h2>Book Your Table</h2>
+      <form id="reservationForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+          <p id="emailError"></p>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required>
+        </div>
+        <div class="form-group">
+          <label for="time">Time</label>
+          <input type="time" id="time" name="time" required>
+        </div>
+        <div class="form-group">
+          <label for="guests">Number of Guests</label>
+          <input type="number" id="guests" name="guests"  min="1" max="20" required>
+        </div>
+        <div class="form-group">
+          <label for="requests">Special Requests</label>
+          <textarea id="requests" name="requests" placeholder="E.g. Quiet Zone, birthday, meetings..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">Confirm Availability</button>
+       
+      </form>
+       <P id="log"></P>
+    </div>
+    <div class="image-container">
+      <img src="images/reserved.jpg" alt="Cafe Interior">
+    </div>
+  </div>
+</section>
+  <footer class="copyright">
+    &copy;2026eldobrewcafe
+  </footer>
+<script>
+  const form = document.getElementById("reservationForm");
+
+  const emailInput = document.getElementById("email");
+  const emailError = document.getElementById("emailError");
+
+  const phoneInput = document.getElementById("phone");
+  const nameInput = document.getElementById("name");
+
+  const log = document.getElementById("log");
+
+
+  emailInput.addEventListener("input", function (e) {
+    const value = e.target.value.trim();
+    const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+
+    emailInput.classList.remove("valid", "invalid");
+
+    if (!value) {
+      emailError.textContent = "Email is required";
+      emailInput.classList.add("invalid");
+    } else if (!isValid) {
+      emailError.textContent = "Please enter a valid email";
+      emailInput.classList.add("invalid");
+    } else {
+      emailError.textContent = "";
+      emailInput.classList.add("valid");
+    }
+  });
+
+  phoneInput.addEventListener("input", function (e) {
+    e.target.value = e.target.value.replace(/[^\d+\s]/g, "");
+
+    const phoneNumber = e.target.value.replace(/\s+/g, "");
+    const phoneRegex = /^(?:254|\+254|0)?((?:7|1)\d{8})$/;
+    const isValid = phoneRegex.test(phoneNumber);
+
+    phoneInput.classList.remove("valid", "invalid");
+
+    if (isValid) {
+      phoneInput.classList.add("valid");
+    } else {
+      phoneInput.classList.add("invalid");
+    }
+  });
+
+  phoneInput.addEventListener("keydown", function (e) {
+    const allowedKeys = [
+      "Backspace",
+      "Delete",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Tab",
+      "Home",
+      "End"
+    ];
+
+    if (
+      !/[0-9+\s]/.test(e.key) &&
+      !allowedKeys.includes(e.key) &&
+      !e.ctrlKey &&
+      !e.metaKey
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  nameInput.addEventListener("input", function (e) {
+    e.target.value = e.target.value.replace(/[^a-zA-ZÀ-ÿ\s'-]/g, "");
+  });
+
+  nameInput.addEventListener("keydown", function (e) {
+    const allowedKeys = [
+      "Backspace",
+      "Delete",
+      "ArrowLeft",
+      "ArrowRight",
+      "ArrowUp",
+      "ArrowDown",
+      "Tab",
+      "Home",
+      "End"
+    ];
+
+    if (
+      !/[a-zA-ZÀ-ÿ\s'-]/.test(e.key) &&
+      !allowedKeys.includes(e.key) &&
+      !e.ctrlKey &&
+      !e.metaKey
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = nameInput.value.trim();
+    const email = emailInput.value.trim();
+    const phone = phoneInput.value.replace(/\s+/g, "");
+
+    const emailIsValid =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+    const phoneIsValid =
+      /^(?:254|\+254|0)?((?:7|1)\d{8})$/.test(phone);
+
+    if (!name || !emailIsValid || !phoneIsValid) {
+      alert("Please complete the form correctly before confirming availability.");
+      return;
+    }
+
+    log.textContent = "Your reservation details are valid.";
+
+    alert("Your availability has been confirmed!");
+  });
+</script>
+
+</body>
+</html>
