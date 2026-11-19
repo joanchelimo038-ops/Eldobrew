@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>M-PESA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="mpesa-container">
+
+    <div class="mpesa-logo">M-PESA</div>
+
+    <h1>Give via M-PESA</h1>
+
+    <p>
+        Give instantly from your phone. Copy the details below, then on your phone
+        go to M-PESA → Lipa na M-PESA → Pay Bill and enter the amount you chose.
+    </p>
+
+    <div class="details">
+        <div>
+            <small>Till number</small>
+            <h2>5861275</h2>
+        </div>
+
+        <button onclick="copyText('5861275')">▢ Copy</button>
+    </div>
+
+    <div class="details">
+        <div>
+            <small>Account number</small>
+            <h2>SAMUEL OCHIENG OTIENO</h2>
+        </div>
+
+        <button onclick="copyText('SAMUEL OCHIENG OTIENO')">▢ Copy</button>
+    </div>
+
+    <hr>
+
+    <div class="steps">
+        <div><span>1</span> Select Lipa na M-PESA, then Pay Bill.</div>
+
+        <div><span>2</span> Enter the Paybill and account numbers above.</div>
+
+        <div><span>3</span> Enter your amount and M-PESA PIN, then confirm.</div>
+    </div>
+
+</div>
+
+<script>
+    function copyText(text) {
+        navigator.clipboard.writeText(text);
+        alert("Copied: " + text);
+    }
+</script>
+
+</body>
+</html>
